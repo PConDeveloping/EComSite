@@ -48,4 +48,4 @@ function PaymentScreen(props) {
   </div>
 
 }
-export default PaymentScreen; 
+export default PaymentScreen;

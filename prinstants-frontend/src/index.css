@@ -59,18 +59,34 @@ button {
 
 }
 
+.header-links{
+  display: inline-flex;
+  width: 30rem;
+  justify-content: center;
+  align-items: center;
+}
+
 .header-links a {
   color: #ffffff;
   text-decoration: none;
 
 }
 
-.header-links :hover {
+.userMenu{
+  padding: .6rem;
+}
+
+.userMenu :hover {
   color: #ff8000
 }
 
 .header-btn-right{
   padding: .7rem;
+}
+
+.lineSpacers{
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 .main{
@@ -118,12 +134,17 @@ a:hover {
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
+  
 }
 
 .product-image {
+  width: 34rem;
+  height: 100%;
   max-width: 34rem;
   max-height: 34rem;
+  
 }
+
 
 .product-rating {
   margin-bottom: 1rem;
@@ -357,34 +378,6 @@ input{
 
 
 /* -------------------------------- Products -------------------------------- */
-/* Products */
-
-.product-header{
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-
-}
-
-.content-margined{
-  margin: 1rem;
-}
-
-.table{
-  width: 100%;
-}
-th{
-  text-align: left;
-}
-tbody>tr:nth-child(odd){
-  background-color: #f0f0f0;
-} 
-
-.product-thumbnail{
-  max-width: 8rem;
-  max-height: 8rem;
-  padding: .5rem;
-}
 
 
 /* check out steps */
@@ -472,4 +465,99 @@ tbody>tr:nth-child(odd){
     font-weight: bold;
     color: #c04000;
 } 
- 
+
+.placeorder-actions-payment > div {
+  width: 100%;
+}
+
+
+
+/* //Product Screen  */
+
+
+.stockStatus{
+display: flex;
+}
+
+.inStock{
+  color: rgb(25, 121, 25)
+}
+
+.lowStockCount{
+  color: red
+}
+
+
+.outOfStock{
+  color: red
+}
+
+
+
+/* Products screen  */
+/* Products */
+
+.product-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+}
+
+
+.products_Table{
+  width: 80vw;
+   height: 100vh;
+  justify-content: space-evenly;
+  margin: auto;
+}
+
+.products_row{
+  max-height: 5rem;
+}
+
+.products_Id_Col{
+  width: 6rem;
+  justify-content: center;
+  align-items: center;
+}
+
+img .thumbnailProducts{
+  width: 4rem;
+  height: 100%;
+  max-width: 4rem;
+  max-height: 4rem;
+}
+
+.products_col{
+  width: 5rem;
+}
+
+.products_row{
+  height: 5rem;
+}
+
+
+.content-margined{
+  margin: .3rem;
+}
+
+.table{
+  width: 100%;
+}
+th{
+  text-align: left;
+  max-width: 4rem;
+  min-width: 4rem;
+}
+
+tbody>tr{
+  height: 4rem;
+  min-width: 4rem;
+  max-width: 4rem;
+
+}
+tbody>tr:nth-child(odd){
+  background-color: #f0f0f0;
+} 
+

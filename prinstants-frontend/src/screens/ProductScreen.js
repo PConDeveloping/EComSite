@@ -11,6 +11,7 @@ function ProductScreen(props) {
     const { product, loading, error } = productDetails;
     const dispatch = useDispatch();
 
+    
     useEffect(() => {
         dispatch(detailsProduct(props.match.params.id));
         return ()=> {
@@ -19,8 +20,10 @@ function ProductScreen(props) {
     }, []);
 
     const handleAddToCart = () => {
-        props.history.push("/cart/"+ props.match.params.id + "?qty=" + qty)
+        props.history.push("/cart/"+ props.match.params.id + `?qty=${qty}`)
     }
+
+    
 
     return  (
 
@@ -43,7 +46,7 @@ function ProductScreen(props) {
                                 {product.rating} Stars ({product.numReviews} Reviews)
                             </li>
                             <li>
-                                <b>{product.price}</b>
+                                <b>$ {parseFloat(product.price).toFixed(2)}</b>
                             </li>
                             <li>
                                 Description:
@@ -51,16 +54,19 @@ function ProductScreen(props) {
                                     {product.description}
                                 </div>
                             </li>
+                            <li>Orders Remaining: <b>{product.stock}</b></li>
                             
                         </ul>
                     </div>
                     <div className="details-action">
                         <ul>
                             <li>
-                                Price: <b>${product.price}</b>
+                                Price: <b>${parseFloat(product.price).toFixed(2)}</b>
                             </li>
                             <li>
-                                Status:{ product.stock>0? "In Stock": "Out of stock"}
+                <span className="stockStatus">Status:{ product.stock<= 0? <div className="outOfStock">Out of stock</div>: product.stock<=10 
+                ? <div> In Stock: <div className="lowStockCount">{`${product.stock} left`}</div></div>
+                : <div className="inStock">In Stock</div>}</span>
                             </li>
                             <li>
                                 Qty: <select value={qty} onChange={(e) => { setQty(e.target.value)} }>

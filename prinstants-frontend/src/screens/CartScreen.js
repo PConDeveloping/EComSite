@@ -12,9 +12,8 @@ function CartScreen(props) {
   const qty = props.location.search ? Number(props.location.search.split("=")[1]) : 1;
   const dispatch = useDispatch();
   const removeFromCartHandler = (productId) => {
-        dispatch(removeFromCart(productId));
-      }
-  
+    dispatch(removeFromCart(productId));
+  }
   useEffect(() => {
     if (productId) {
       dispatch(addToCart(productId, qty));
@@ -43,7 +42,7 @@ function CartScreen(props) {
           </div>
             :
             cartItems.map(item =>
-              <li key={`${item._id}${cartItems.length}`}>
+              <li>
                 <div className="cart-image">
                   <img src={item.image} alt="product" />
                 </div>
@@ -57,7 +56,7 @@ function CartScreen(props) {
                   <div>
                     Qty:
                   <select value={item.qty} onChange={(e) => dispatch(addToCart(item.product, e.target.value))}>
-                      {[...Array(item.countInStock).keys()].map(x =>
+                      {[...Array(item.stock).keys()].map(x =>
                         <option key={x + 1} value={x + 1}>{x + 1}</option>
                       )}
                     </select>
@@ -67,7 +66,7 @@ function CartScreen(props) {
                   </div>
                 </div>
                 <div className="cart-price">
-                  ${item.price}
+                  ${parseFloat(item.price).toFixed(2)}
                 </div>
               </li>
             )
@@ -79,7 +78,7 @@ function CartScreen(props) {
       <h3>
         Subtotal ( {cartItems.reduce((a, c) => a + c.qty, 0)} items)
         :
-         $ {cartItems.reduce((a, c) => a + c.price * c.qty, 0)}
+         $ {parseFloat(cartItems.reduce((a, c) => a + c.price * c.qty, 0)).toFixed(2)}
       </h3>
       <button onClick={checkoutHandler} className="button primary full-width" disabled={cartItems.length === 0}>
         Proceed to Checkout
@@ -90,4 +89,4 @@ function CartScreen(props) {
   </div>
 }
 
-export default CartScreen; 
+export default CartScreen;

@@ -13,14 +13,14 @@ function cartReducer(state = { cartItems: [], shipping: {}, payment: {} }, actio
       }
       return { cartItems: [...state.cartItems, item] };
     case CART_REMOVE_ITEM:
-      return { cartItems: state.cartItems.filter(x => x.product !== action.payload) }
-      case CART_SAVE_SHIPPING:
-        return { ...state, shipping: action.payload };
-      case CART_SAVE_PAYMENT:
-        return { ...state, payment: action.payload };    
+      return { cartItems: state.cartItems.filter(x => x.product !== action.payload) };
+    case CART_SAVE_SHIPPING:
+      return { ...state, shipping: action.payload };
+    case CART_SAVE_PAYMENT:
+      return { ...state, payment: action.payload };
     default:
-        return state
+      return state
   }
 }
 
-export { cartReducer } 
+export { cartReducer }

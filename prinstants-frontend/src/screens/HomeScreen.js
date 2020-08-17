@@ -42,7 +42,9 @@ useEffect(() => {
 
    
         <ul className="products">
-        { products.map(product =>
+        { products.filter(data => data.stock > 0)
+        .map(product =>
+        
             <li key={product._id}>
                 <div className="product">
                     <Link to={'/product/' + product._id}>                    
@@ -52,8 +54,11 @@ useEffect(() => {
                         <Link to={'/product/' + product._id}>{product.name}</Link>
                     </div>
                     <div className="product-brand">{product.brand}</div>
-                    <div className="product-price">${product.price}</div>
+                    <div className="product-price">${parseFloat(product.price).toFixed(2)}</div>
                     <div className="product-rating">{product.rating} Starts ({product.numReviews})</div>
+                    {product.stock <=10 ? <div className="lowStockCount">Only {product.stock} left</div>
+                    :<div></div>}
+
                 </div>
             </li>
         )}

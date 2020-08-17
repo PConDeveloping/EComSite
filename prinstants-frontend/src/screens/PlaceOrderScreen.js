@@ -3,9 +3,12 @@ import { addToCart, removeFromCart } from '../actions/cartActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import CheckoutSteps from '../components/CheckoutSteps';
+import { createOrder } from '../actions/orderActions';
 function PlaceOrderScreen(props) {
 
   const cart = useSelector(state => state.cart);
+  const orderCreate = useSelector(state => state.orderCreate);
+  const { loading, success, error, order } = orderCreate;
 
   const { cartItems, shipping, payment } = cart;
   if (!shipping.address) {
@@ -13,25 +16,38 @@ function PlaceOrderScreen(props) {
   } else if (!payment.paymentMethod) {
     props.history.push("/payment");
   }
-  let itemsNum =  Math.ceil((cartItems.reduce((a, c) => a + c.price * c.qty, 0))*100)/100;
-  let shippingNum = Math.ceil((itemsNum > 100 ? 0 : 10)*100)/100
-  let taxNum = Math.ceil((0.15 * itemsNum)*100)/100;
-  let totalNum= Math.ceil((itemsNum + shippingNum + taxNum)*100)/100;
-  const itemsPrice = itemsNum.toFixed(2);
-  const shippingPrice = shippingNum.toFixed(2);
-  const taxPrice = taxNum.toFixed(2);
-  const totalPrice = totalNum.toFixed(2);
-
+  const priceOfItems = cartItems.reduce((a, c) => a + c.price * c.qty, 0);
+  const itemsPrice = parseFloat(priceOfItems).toFixed(2);
+  console.log(itemsPrice)
+  const priceToShip = itemsPrice > 100 ? 0 : itemsPrice <= 1 ? .01 : 10;
+  const shippingPrice = parseFloat(priceToShip).toFixed(2);
+  console.log(shippingPrice)
+  const taxed = 0.15 * itemsPrice;
+  const taxPrice=parseFloat(taxed).toFixed(2);
+  console.log(taxPrice);
+  const priceOfTotal = parseFloat(itemsPrice) + parseFloat(shippingPrice) + parseFloat(taxPrice);
+  console.log(priceOfTotal);
+  const totalPrice = parseFloat(priceOfTotal).toFixed(2);
+  console.log(totalPrice)
   const dispatch = useDispatch();
 
   const placeOrderHandler = () => {
     // create an order
+    dispatch(createOrder({
+      orderItems: cartItems, shipping, payment, itemsPrice, shippingPrice,
+      taxPrice, totalPrice
+    }));
   }
   useEffect(() => {
+    if (success) {
+      props.history.push("/order/" + order._id);
+    }
 
-  }, []);
+  }, [success]);
 
-  
+  const checkoutHandler = () => {
+    props.history.push("/signin?redirect=shipping");
+  }
 
   return <div>
     <CheckoutSteps step1 step2 step3 step4 ></CheckoutSteps>
@@ -42,7 +58,8 @@ function PlaceOrderScreen(props) {
             Shipping
           </h3>
           <div>
-            {cart.shipping.address}, {cart.shipping.city}, {cart.shipping.postalCode}, {cart.shipping.country}
+            {cart.shipping.address}, {cart.shipping.city},
+          {cart.shipping.postalCode}, {cart.shipping.country},
           </div>
         </div>
         <div>
@@ -68,7 +85,7 @@ function PlaceOrderScreen(props) {
           </div>
                 :
                 cartItems.map(item =>
-                  <li key={item._id}>
+                  <li>
                     <div className="cart-image">
                       <img src={item.image} alt="product" />
                     </div>
@@ -84,7 +101,7 @@ function PlaceOrderScreen(props) {
                       </div>
                     </div>
                     <div className="cart-price">
-                      ${item.price}
+                      ${parseFloat(item.price).toFixed(2)}
                     </div>
                   </li>
                 )

@@ -11,7 +11,7 @@ const addToCart = (productId, qty) => async (dispatch, getState) => {
         name: data.name,
         image: data.image,
         price: data.price,
-        countInStock: data.countInStock,
+        stock: data.stock,
         qty
       }
     });
@@ -28,11 +28,10 @@ const removeFromCart = (productId) => (dispatch, getState) => {
   const { cart: { cartItems } } = getState();
   Cookie.set("cartItems", JSON.stringify(cartItems));
 }
-
 const saveShipping = (data) => (dispatch) => {
-    dispatch({ type: CART_SAVE_SHIPPING, payload: data });
-  }
-  const savePayment = (data) => (dispatch) => {
-    dispatch({ type: CART_SAVE_PAYMENT, payload: data });
-  }
-  export { addToCart, removeFromCart, saveShipping, savePayment }
+  dispatch({ type: CART_SAVE_SHIPPING, payload: data });
+}
+const savePayment = (data) => (dispatch) => {
+  dispatch({ type: CART_SAVE_PAYMENT, payload: data });
+}
+export { addToCart, removeFromCart, saveShipping, savePayment }
